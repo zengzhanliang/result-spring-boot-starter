@@ -8,8 +8,14 @@ import java.util.Enumeration;
  * @author zengzhanliang
  */
 public class IpUtil {
+    private static String IP = "";
 
     public static String getLocalIpByNetcard() {
+        if ( !"".equals( IP ) )
+        {
+            return IP;
+        }
+
         try {
             for (Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces(); e.hasMoreElements(); ) {
                 NetworkInterface item = e.nextElement();
@@ -19,11 +25,14 @@ public class IpUtil {
                     }
                     if (address.getAddress() instanceof Inet4Address) {
                         Inet4Address inet4Address = (Inet4Address) address.getAddress();
-                        return inet4Address.getHostAddress();
+                        IP = inet4Address.getHostAddress();
+                        return IP;
                     }
                 }
             }
-            return InetAddress.getLocalHost().getHostAddress();
+
+            IP = InetAddress.getLocalHost().getHostAddress();
+            return IP;
         } catch (SocketException | UnknownHostException e) {
             throw new RuntimeException(e);
         }

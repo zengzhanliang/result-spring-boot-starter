@@ -4,14 +4,13 @@ import com.sun.xml.internal.ws.api.model.CheckedException;
 import com.zeng.annotation.NonResultCovert;
 import com.zeng.model.CommonResult;
 import com.zeng.model.ResultProperties;
+import com.zeng.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-
-import java.net.InetAddress;
 
 @Aspect
 @Slf4j
@@ -65,8 +64,7 @@ public class ResultService {
             if ( properties.isLog() )
             {
                 //打印运行日志
-                InetAddress addr = InetAddress.getLocalHost();
-                log.info( "ip地址为 {}, {} 接口参数列表 {} , 运行用时 {} ms", addr.getAddress(), joinPoint.getSignature(), joinPoint.getArgs(), (System.currentTimeMillis() - startTime) );
+                log.info( "ip地址为 {}, {} 接口参数列表 {} , 运行用时 {} ms", IpUtil.getLocalIpByNetcard(), joinPoint.getSignature(), joinPoint.getArgs(), (System.currentTimeMillis() - startTime) );
             }
         } catch (Throwable e)
         {

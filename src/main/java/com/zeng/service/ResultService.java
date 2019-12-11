@@ -11,6 +11,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import java.net.InetAddress;
+
 @Aspect
 @Slf4j
 /**
@@ -60,8 +62,12 @@ public class ResultService {
 
             commonResult = new CommonResult().success( result ) ;
 
-            //打印运行日志
-            log.info( " {} 接口运行用时 {} ms", joinPoint.getSignature() , (System.currentTimeMillis() - startTime) );
+            if ( properties.isLog() )
+            {
+                //打印运行日志
+                InetAddress addr = InetAddress.getLocalHost();
+                log.info( "ip地址为 {}, {} 接口参数列表 {} , 运行用时 {} ms", addr.getAddress(), joinPoint.getSignature(), joinPoint.getArgs(), (System.currentTimeMillis() - startTime) );
+            }
         } catch (Throwable e)
         {
             commonResult = handlerException( joinPoint, e );

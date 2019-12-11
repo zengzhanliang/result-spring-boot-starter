@@ -11,4 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class ResultProperties {
     private boolean enabled;
+
+    private boolean log;
 }
